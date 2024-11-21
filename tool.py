@@ -1,13 +1,13 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel
-from PyQt5.QtGui import QPixmap, QPainter, QColor, QImage
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox
+from PyQt5.QtGui import QPixmap, QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Quản lý Switch Cisco")
+        self.setWindowTitle("Quản lý FLW")
         self.resize(900, 600)  # Tăng kích thước cửa sổ lên 800x600
 
         # Tạo widget tab chính
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 
         # Tạo tab "Control" bên trong tab "Switch"
         self.control_tab = QWidget()
-        self.inner_tabs.addTab(self.control_tab, "Control")
+        self.inner_tabs.addTab(self.control_tab, "Check Switch Status")
         self.control_tab_layout = QVBoxLayout()
         self.control_tab.setLayout(self.control_tab_layout)
         self.control_tab_layout.addWidget(QLabel("Nội dung cho tab Control"))
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         # Cập nhật thông điệp thanh trạng thái
         self.statusBar().addWidget(QLabel("Server: Sẵn sàng"))
 
-        # Thêm một thanh trạng thái khác ở phía bên phải
+        # Thêm một thanh trạng thái khác ở phía bên ph��i
         self.statusBar().addPermanentWidget(QLabel("Đã kết nối"))
 
     def update_circle_opacity(self, opacity):
@@ -80,6 +80,17 @@ class MainWindow(QMainWindow):
         new_opacity = 0.0 if current_opacity > 0 else 1.0
         self.update_circle_opacity(new_opacity)
         self.circle_label.setPixmap(self.green_circle)
+
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Xác nhận thoát', 
+                                     'Bạn có chắc chắn muốn thoát không?', 
+                                     QMessageBox.Yes | QMessageBox.No, 
+                                     QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

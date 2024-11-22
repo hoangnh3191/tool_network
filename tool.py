@@ -1,8 +1,10 @@
 import sys
 import csv
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QDialog, QFormLayout, QLineEdit, QDialogButtonBox, QHBoxLayout, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QDialog, QFormLayout, QLineEdit, QDialogButtonBox, QHBoxLayout, QComboBox, QTextEdit
 from PyQt5.QtGui import QPixmap, QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
+from netmiko import ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException
+from paramiko.ssh_exception import AuthenticationException
 
 class AddDeviceDialog(QDialog):
     def __init__(self, parent=None):
@@ -97,14 +99,18 @@ class MainWindow(QMainWindow):
         self.horizontal_layout.addWidget(self.check_button)
         self.horizontal_layout.addWidget(self.check_all_button)
 
-        # Kết nối nút "Check" với hàm xử lý
-        self.check_button.clicked.connect(self.check_switch_status)
-
         # Thêm layout ngang vào layout chính của tab
         self.control_tab_layout.addLayout(self.horizontal_layout)
 
-        # Thêm một spacer để đẩy các widget lên trên
-        self.control_tab_layout.addStretch()
+        # Tạo widget để hiển thị kết quả
+        self.result_display = QTextEdit(self)
+        self.result_display.setReadOnly(True)  # Chỉ cho phép đọc, không cho phép chỉnh sửa
+
+        # Thêm widget hiển thị kết quả vào layout chính của tab
+        self.control_tab_layout.addWidget(self.result_display, stretch=1)
+
+        # Kết nối nút "Check" với hàm xử lý
+        self.check_button.clicked.connect(self.check_switch_status)
 
         # Tạo tab "Device List" bên trong tab "Switch"
         self.setting_tab = QWidget()
@@ -169,7 +175,7 @@ class MainWindow(QMainWindow):
         self.green_circle.fill(Qt.transparent)
         painter = QPainter(self.green_circle)
         color = QColor('#00FF00')
-        color.setAlphaF(opacity)  # Đặt độ trong suốt
+        color.setAlphaF(opacity)  # Đặt ��ộ trong suốt
         painter.setBrush(color)
         painter.setPen(Qt.NoPen)
         painter.drawEllipse(0, 0, 10, 10)
@@ -282,14 +288,40 @@ class MainWindow(QMainWindow):
         ip = self.ip_input.text().strip()
         username = self.username_input.text().strip()
         password = self.password_input.text().strip()
+        device_type = self.device_type_select.currentText()
 
         # Kiểm tra xem các ô nhập liệu đã được điền chưa
         if not ip or not username or not password:
             QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập đầy đủ địa chỉ IP, tên người dùng và mật khẩu.")
-        else:
-            # Thực hiện các thao tác kiểm tra trạng thái switch
-            # Ví dụ: print("Checking switch status for IP:", ip)
-            pass
+            return
+
+        # Cấu hình thiết bị cho Netmiko
+        device = {
+            'device_type': device_type,
+            'host': ip,
+            'username': username,
+            'password': password,
+            'secret': password
+        }
+        name = device['host']
+        # connect to devices
+        try:
+            cnn = ConnectHandler(**device)
+        except (AuthenticationException, NetmikoAuthenticationException):
+            print(name + ' | Đăng nhập thất bại! ')
+            return
+        except NetmikoTimeoutException:
+            print(name + ' | Hết thời gian kết nối! ')
+            return
+        cnn.enable()
+        self.result_display.setPlainText(f"Login by {username}: OK")
+        # Lấy tên host của switch
+        hostname = cnn.send_command('show run | include hostname')
+        self.result_display.append(f"\nHostname: {hostname}")
+        print(f"Hostname: {hostname}")
+
+        # Đóng kết nối SSH
+        cnn.disconnect()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

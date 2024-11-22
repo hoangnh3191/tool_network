@@ -1,6 +1,6 @@
 import sys
 import csv
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QDialog, QFormLayout, QLineEdit, QDialogButtonBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QDialog, QFormLayout, QLineEdit, QDialogButtonBox, QHBoxLayout, QComboBox
 from PyQt5.QtGui import QPixmap, QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
 
@@ -59,9 +59,52 @@ class MainWindow(QMainWindow):
         # Tạo tab "Control" bên trong tab "Switch"
         self.control_tab = QWidget()
         self.inner_tabs.addTab(self.control_tab, "Check Switch Status")
+        
+        # Sử dụng QVBoxLayout cho tab và đặt khoảng cách trên cùng là 0
         self.control_tab_layout = QVBoxLayout()
+        self.control_tab_layout.setContentsMargins(0, 0, 0, 0)  # Đặt lề trên cùng là 0
         self.control_tab.setLayout(self.control_tab_layout)
-        self.control_tab_layout.addWidget(QLabel("Nội dung cho tab Control"))
+
+        # Tạo layout ngang cho các ô nhập liệu và nút bấm
+        self.horizontal_layout = QHBoxLayout()
+
+        # Tạo các ô nhập liệu
+        self.ip_input = QLineEdit(self)
+        self.ip_input.setPlaceholderText("IP Address")
+        self.username_input = QLineEdit(self)
+        self.username_input.setPlaceholderText("Username")
+        self.password_input = QLineEdit(self)
+        self.password_input.setEchoMode(QLineEdit.Password)  # Ẩn mật khẩu khi nhập
+        self.password_input.setPlaceholderText("Password")
+
+        # Thêm các ô nhập liệu vào layout ngang
+        self.horizontal_layout.addWidget(self.ip_input)
+        self.horizontal_layout.addWidget(self.username_input)
+        self.horizontal_layout.addWidget(self.password_input)
+
+        # Tạo select list (QComboBox)
+        self.device_type_select = QComboBox(self)
+        self.device_type_select.addItems(["cisco_ios", "cisco_nxos"])
+
+        # Thêm select list vào layout ngang
+        self.horizontal_layout.addWidget(self.device_type_select)
+
+        # Tạo các nút bấm
+        self.check_button = QPushButton("Check")
+        self.check_all_button = QPushButton("Check All")
+
+        # Thêm các nút bấm vào layout ngang
+        self.horizontal_layout.addWidget(self.check_button)
+        self.horizontal_layout.addWidget(self.check_all_button)
+
+        # Kết nối nút "Check" với hàm xử lý
+        self.check_button.clicked.connect(self.check_switch_status)
+
+        # Thêm layout ngang vào layout chính của tab
+        self.control_tab_layout.addLayout(self.horizontal_layout)
+
+        # Thêm một spacer để đẩy các widget lên trên
+        self.control_tab_layout.addStretch()
 
         # Tạo tab "Device List" bên trong tab "Switch"
         self.setting_tab = QWidget()
@@ -233,6 +276,19 @@ class MainWindow(QMainWindow):
             delete_button = QPushButton("Delete")
             delete_button.clicked.connect(self.create_delete_function(row_position))
             self.device_table.setCellWidget(row_position, 7, delete_button)
+
+    def check_switch_status(self):
+        # Lấy dữ liệu từ các ô nhập liệu
+        ip = self.ip_input.text().strip()
+        password = self.password_input.text().strip()
+
+        # Kiểm tra xem ô IP và Password đã được nhập chưa
+        if not ip or not password:
+            QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập cả địa chỉ IP và mật khẩu.")
+        else:
+            # Thực hiện các thao tác kiểm tra trạng thái switch
+            # Ví dụ: print("Checking switch status for IP:", ip)
+            pass
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

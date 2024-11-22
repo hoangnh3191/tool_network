@@ -1,7 +1,17 @@
 host,device_name,username,password,secret,device_type,location
-10.25.1.251,SW.SERVER.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,Server F26
-10.25.1.253,SW.SERVER.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,Server F26
+10.25.144.253,FLW.CA1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CA1
+10.25.145.253,FLW.CA2.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CA2
+10.25.201.253,FLW.CH.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CH
 10.25.1.254,FLW.CORE,admin,P@ssw0rd@20080010!@#,P@ssw0rd@20080010!@#,cisco_nxos,Server F26
+10.25.101.251,FLW.F01.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
+10.25.101.252,FLW.F01.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
+10.25.101.253,FLW.F01.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
+10.25.102.251,FLW.F02.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
+10.25.102.252,FLW.F02.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
+10.25.102.253,FLW.F02.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
+10.25.103.251,FLW.F03.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
+10.25.103.252,FLW.F03.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
+10.25.103.253,FLW.F03.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
 10.25.117.250,FLW.F17.2F.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F17
 10.25.117.251,FLW.F17.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F17
 10.25.117.252,FLW.F17.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F17
@@ -38,6 +48,9 @@ host,device_name,username,password,secret,device_type,location
 10.25.125.251,FLW.F25.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F25
 10.25.125.252,FLW.F25.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F25
 10.25.125.253,FLW.F25.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,F25
+10.25.126.250,FLW.F26.2F.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
+10.25.126.251,FLW.F26.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
+10.25.126.252,FLW.F26.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.242,FLW.F26.OFFICE.242,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.243,FLW.F26.OFFICE.243,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.244,FLW.F26.OFFICE.244,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
@@ -45,9 +58,6 @@ host,device_name,username,password,secret,device_type,location
 10.25.126.246,FLW.F26.OFFICE.246,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.247,FLW.F26.OFFICE.247,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.248,FLW.F26.OFFICE.248,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
-10.25.126.250,FLW.F26.2F.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
-10.25.126.251,FLW.F26.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
-10.25.126.252,FLW.F26.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F26
 10.25.126.253,FLW.F26.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,F26
 10.25.127.250,FLW.F27.2F.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F27
 10.25.127.251,FLW.F27.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F27
@@ -65,34 +75,18 @@ host,device_name,username,password,secret,device_type,location
 10.25.130.251,FLW.F30.BTM.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F30
 10.25.130.252,FLW.F30.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F30
 10.25.130.253,FLW.F30.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,F30
-10.25.145.253,FLW.CA2.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CA2
+10.25.151.253,FLW.G1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G1
+10.25.152.253,FLW.G2.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G2
 10.25.147.253,FLW.G3.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G3
 10.25.149.253,FLW.G5.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G5
-10.25.201.253,FLW.CH.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CH
+10.25.150.253,FLW.G7.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G7
+10.25.148.253,FLW.G8.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G8
+10.25.207.252,FLW.M1.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M1
+10.25.207.253,FLW.M1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M1
+10.25.205.253,FLW.M3.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M3
+10.25.204.253,FLW.M4.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M4
+10.25.203.253,FLW.M5.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M5
 10.25.202.252,FLW.M6.MID.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M6
 10.25.202.253,FLW.M6.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M6
-10.25.203.253,FLW.M5.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M5
-10.25.204.253,FLW.M4.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M4
-10.25.207.253,FLW.M1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M1
-10.25.208.253,FLW.WS.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,WS
-10.25.9.253,FLW.O-building.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,O
-10.25.9.252,FLW.OBuilding.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,O
-10.25.9.251,FLW.O-Building.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,O
 10.25.9.250,FLW.O-Building.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,WH (O)
-10.25.101.253,FLW.F01.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
-10.25.101.252,FLW.F01.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
-10.25.101.251,FLW.F01.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F01
-10.25.102.253,FLW.F02.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
-10.25.102.252,FLW.F02.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
-10.25.102.251,FLW.F02.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F02
-10.25.103.253,FLW.F03.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
-10.25.103.252,FLW.F03.BTM.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
-10.25.103.251,FLW.F03.2F.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,F03
-10.25.205.253,FLW.M3.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M3
-10.25.207.252,FLW.M1.MID.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,M1
-10.25.148.253,FLW.G8.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G8
-10.25.150.253,FLW.G7.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G7
-10.25.152.253,FLW.G2.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G2
-10.25.151.253,FLW.G1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G1
-10.25.144.253,FLW.CA1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CA1
-a,a,a,a,a,a,a
+10.25.9.251,FLW.O-Building.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,O

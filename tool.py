@@ -280,11 +280,12 @@ class MainWindow(QMainWindow):
     def check_switch_status(self):
         # Lấy dữ liệu từ các ô nhập liệu
         ip = self.ip_input.text().strip()
+        username = self.username_input.text().strip()
         password = self.password_input.text().strip()
 
-        # Kiểm tra xem ô IP và Password đã được nhập chưa
-        if not ip or not password:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập cả địa chỉ IP và mật khẩu.")
+        # Kiểm tra xem các ô nhập liệu đã được điền chưa
+        if not ip or not username or not password:
+            QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập đầy đủ địa chỉ IP, tên người dùng và mật khẩu.")
         else:
             # Thực hiện các thao tác kiểm tra trạng thái switch
             # Ví dụ: print("Checking switch status for IP:", ip)

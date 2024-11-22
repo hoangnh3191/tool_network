@@ -95,3 +95,4 @@ host,device_name,username,password,secret,device_type,location
 10.25.152.253,FLW.G2.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G2
 10.25.151.253,FLW.G1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,G1
 10.25.144.253,FLW.CA1.TOP.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,CA1
+a,a,a,a,a,a,a

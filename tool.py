@@ -1,8 +1,39 @@
 import sys
 import csv
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QDialog, QFormLayout, QLineEdit, QDialogButtonBox
 from PyQt5.QtGui import QPixmap, QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
+
+class AddDeviceDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Thêm Thiết Bị Mới")
+        
+        self.layout = QFormLayout(self)
+        
+        # Tạo các trường nhập liệu
+        self.host_input = QLineEdit(self)
+        self.device_name_input = QLineEdit(self)
+        self.username_input = QLineEdit(self)
+        self.password_input = QLineEdit(self)
+        self.secret_input = QLineEdit(self)
+        self.device_type_input = QLineEdit(self)
+        self.location_input = QLineEdit(self)
+        
+        # Thêm các trường vào layout
+        self.layout.addRow("Host:", self.host_input)
+        self.layout.addRow("Device Name:", self.device_name_input)
+        self.layout.addRow("Username:", self.username_input)
+        self.layout.addRow("Password:", self.password_input)
+        self.layout.addRow("Secret:", self.secret_input)
+        self.layout.addRow("Device Type:", self.device_type_input)
+        self.layout.addRow("Location:", self.location_input)
+        
+        # Thêm nút OK và Cancel
+        self.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
+        self.layout.addWidget(self.buttons)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -37,11 +68,15 @@ class MainWindow(QMainWindow):
         self.inner_tabs.addTab(self.setting_tab, "Device List")
         self.setting_tab_layout = QVBoxLayout()
         self.setting_tab.setLayout(self.setting_tab_layout)
-        self.setting_tab_layout.addWidget(QLabel("Nội dung cho tab Device List"))
+
+        # Thêm nút "Add Device" phía trên bảng
+        self.add_device_button = QPushButton("Add Device")
+        self.add_device_button.clicked.connect(self.add_device)
+        self.setting_tab_layout.addWidget(self.add_device_button)
 
         # Tạo bảng trong tab "Device List"
         self.device_table = QTableWidget()
-        self.device_table.setColumnCount(8)  # Số lượng cột
+        self.device_table.setColumnCount(8)  # Tăng số lượng cột lên 8
         self.device_table.setHorizontalHeaderLabels([
             "Host", "Device Name", "Username", "Password", 
             "Secret", "Device Type", "Location", "Action"
@@ -58,7 +93,7 @@ class MainWindow(QMainWindow):
         self.wifi_tab.setLayout(self.wifi_tab_layout)
         self.wifi_tab_layout.addWidget(QLabel("Nội dung cho tab Wifi"))
 
-        # T���o hình tròn màu xanh lá cây sáng hơn
+        # Tạo hình tròn màu xanh lá cây sáng hơn
         self.green_circle = QPixmap(10, 10)
         self.update_circle_opacity(1.0)  # Bắt đầu với độ trong suốt 1.0
 
@@ -112,8 +147,13 @@ class MainWindow(QMainWindow):
             for row in csvreader:
                 row_position = self.device_table.rowCount()
                 self.device_table.insertRow(row_position)
-                for column, data in enumerate(row):
+                for column, data in enumerate(row):  # Không bỏ qua cột nào
                     self.device_table.setItem(row_position, column, QTableWidgetItem(data))
+                
+                # Thêm nút "Delete" vào cột thứ 8
+                delete_button = QPushButton("Delete")
+                delete_button.clicked.connect(lambda _, row=row_position: self.confirm_delete(row))
+                self.device_table.setCellWidget(row_position, 7, delete_button)  # Cột thứ 8 có chỉ số 7
         
         # Giãn đều các cột theo kích thước chiều ngang của bảng
         header = self.device_table.horizontalHeader()
@@ -121,6 +161,48 @@ class MainWindow(QMainWindow):
         
         # Sắp xếp dữ liệu theo cột "Device Name" (cột thứ 1, chỉ số 1)
         self.device_table.sortItems(1, Qt.AscendingOrder)
+
+    def confirm_delete(self, row):
+        reply = QMessageBox.question(self, 'Xác nhận xóa', 
+                                     'Bạn có chắc chắn muốn xóa hàng này không?', 
+                                     QMessageBox.Yes | QMessageBox.No, 
+                                     QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            self.delete_row(row)
+
+    def delete_row(self, row):
+        self.device_table.removeRow(row)
+
+    def add_device(self):
+        dialog = AddDeviceDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            # Lấy dữ liệu từ hộp thoại
+            new_device = [
+                dialog.host_input.text(),
+                dialog.device_name_input.text(),
+                dialog.username_input.text(),
+                dialog.password_input.text(),
+                dialog.secret_input.text(),
+                dialog.device_type_input.text(),
+                dialog.location_input.text()
+            ]
+            
+            # Ghi dữ liệu vào file CSV
+            with open('SW/sw_all.csv', 'a', newline='', encoding='utf-8') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerow(new_device)
+            
+            # Thêm dữ liệu vào bảng
+            row_position = self.device_table.rowCount()
+            self.device_table.insertRow(row_position)
+            for column, data in enumerate(new_device):
+                self.device_table.setItem(row_position, column, QTableWidgetItem(data))
+            
+            # Thêm nút "Delete" vào cột thứ 8
+            delete_button = QPushButton("Delete")
+            delete_button.clicked.connect(lambda _, row=row_position: self.confirm_delete(row))
+            self.device_table.setCellWidget(row_position, 7, delete_button)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

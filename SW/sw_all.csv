@@ -60,7 +60,7 @@ No.,host,username,password,secret,device_type,device_name,location
 59,10.25.129.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F29.2F.250,F29
 60,10.25.129.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F29.BTM.251,F29
 61,10.25.129.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F29.MID.252,F29
-62,10.25.129.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_nxos,FLW.F29.TOP.253,F29
+62,10.25.129.253,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F29.TOP.253,F29
 63,10.25.130.250,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F30.2F.250,F30
 64,10.25.130.251,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F30.BTM.251,F30
 65,10.25.130.252,admin,Flw@20080010!@#,Flw@20080010!@#,cisco_ios,FLW.F30.MID.252,F30

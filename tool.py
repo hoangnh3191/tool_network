@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox
+import csv
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QPixmap, QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
 
@@ -31,12 +32,24 @@ class MainWindow(QMainWindow):
         self.control_tab.setLayout(self.control_tab_layout)
         self.control_tab_layout.addWidget(QLabel("Nội dung cho tab Control"))
 
-        # Tạo tab "Setting" bên trong tab "Switch"
+        # Tạo tab "Device List" bên trong tab "Switch"
         self.setting_tab = QWidget()
-        self.inner_tabs.addTab(self.setting_tab, "Setting")
+        self.inner_tabs.addTab(self.setting_tab, "Device List")
         self.setting_tab_layout = QVBoxLayout()
         self.setting_tab.setLayout(self.setting_tab_layout)
-        self.setting_tab_layout.addWidget(QLabel("Nội dung cho tab Setting"))
+        self.setting_tab_layout.addWidget(QLabel("Nội dung cho tab Device List"))
+
+        # Tạo bảng trong tab "Device List"
+        self.device_table = QTableWidget()
+        self.device_table.setColumnCount(8)  # Số lượng cột
+        self.device_table.setHorizontalHeaderLabels([
+            "Host", "Device Name", "Username", "Password", 
+            "Secret", "Device Type", "Location", "Action"
+        ])
+        self.setting_tab_layout.addWidget(self.device_table)
+
+        # Đọc dữ liệu từ file CSV và hiển thị trong bảng
+        self.load_device_data()
 
         # Tạo tab "Wifi"
         self.wifi_tab = QWidget()
@@ -45,7 +58,7 @@ class MainWindow(QMainWindow):
         self.wifi_tab.setLayout(self.wifi_tab_layout)
         self.wifi_tab_layout.addWidget(QLabel("Nội dung cho tab Wifi"))
 
-        # Tạo hình tròn màu xanh lá cây sáng hơn
+        # T���o hình tròn màu xanh lá cây sáng hơn
         self.green_circle = QPixmap(10, 10)
         self.update_circle_opacity(1.0)  # Bắt đầu với độ trong suốt 1.0
 
@@ -62,7 +75,7 @@ class MainWindow(QMainWindow):
         # Cập nhật thông điệp thanh trạng thái
         self.statusBar().addWidget(QLabel("Server: Sẵn sàng"))
 
-        # Thêm một thanh trạng thái khác ở phía bên ph��i
+        # Thêm một thanh trạng thái khác ở phía bên phi
         self.statusBar().addPermanentWidget(QLabel("Đã kết nối"))
 
     def update_circle_opacity(self, opacity):
@@ -91,6 +104,23 @@ class MainWindow(QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+    def load_device_data(self):
+        with open('SW/sw_all.csv', newline='', encoding='utf-8') as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader)  # Bỏ qua dòng tiêu đề
+            for row in csvreader:
+                row_position = self.device_table.rowCount()
+                self.device_table.insertRow(row_position)
+                for column, data in enumerate(row):
+                    self.device_table.setItem(row_position, column, QTableWidgetItem(data))
+        
+        # Giãn đều các cột theo kích thước chiều ngang của bảng
+        header = self.device_table.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
+        
+        # Sắp xếp dữ liệu theo cột "Device Name" (cột thứ 1, chỉ số 1)
+        self.device_table.sortItems(1, Qt.AscendingOrder)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
